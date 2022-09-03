@@ -13,10 +13,11 @@ const displayCatagories = (categories) => {
     const allCategory = document.getElementById("all-catagories");
     categories.forEach((category) => {
       const li = document.createElement("li");
-
+     //start loader
+    //  toggleSpinner(true)
       li.innerHTML = `
                 
-                <a onclick="loadCategoriesData('${category.category_id}')" class="nav-link text-dark" href="#">${category.category_name}</a>
+                <a onclick="loadCategoriesData('${category.category_id}'), toggleSpinner(${(true)})" class="nav-link text-dark" href="#">${category.category_name}</a>
                
                `;
       allCategory.appendChild(li);
@@ -66,7 +67,7 @@ const displayCatagoriesData = (elements) => {
     const newsDiv = document.createElement("div");
     newsDiv.classList.add("col");
     newsDiv.innerHTML = `
-    <div class="card h-100 p-3">
+    <div class="card h-100 p-3 shadow-sm">
               <img src="${
                 element.thumbnail_url
               }" class="card-img-top img-fluid h-50" alt="...">
@@ -101,7 +102,17 @@ const displayCatagoriesData = (elements) => {
     
     `;
     newsContainer.appendChild(newsDiv);
+    //stop loader
+    toggleSpinner(false)
   });
 };
-
+const toggleSpinner = isLoading => {
+  const loaderSection  = document.getElementById('loader');
+  if(isLoading){
+    loaderSection.classList.remove('d-none')
+  }
+  else{
+    loaderSection.classList.add('d-none')
+  }
+}
 loadCatagories();
