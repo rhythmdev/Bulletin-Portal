@@ -42,7 +42,7 @@ const loadCategoriesData = async (category_id) => {
 const displayCatagoriesData = (elements) => {
   //console.log(elements)
   // total news found
-
+try{
   const totalFound = document.getElementById("total-category");
   totalFound.textContent = "";
   const totalDiv = document.createElement("div");
@@ -105,6 +105,11 @@ const displayCatagoriesData = (elements) => {
     //stop loader
     toggleSpinner(false)
   });
+}
+catch(error){
+  console.log(error)
+}
+  
 };
 const toggleSpinner = isLoading => {
   const loaderSection  = document.getElementById('loader');
