@@ -1,0 +1,13 @@
+body {
+  background-color: #f6f6f6;
+}
+.logo {
+  background: #5d5fef;
+  border-radius: 4px;
+  color: #ffffff;
+  font-size: 1.5rem;
+  padding: 0.5rem;
+}
+.active{
+    color: #5d5fef;
+}
