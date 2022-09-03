@@ -8,6 +8,19 @@ body {
   font-size: 1.5rem;
   padding: 0.5rem;
 }
-.active{
-    color: #5d5fef;
+.active {
+  color: #5d5fef;
+}
+.show-btn {
+  background-color: #5d5fef;
+  color: #ffffff;
+  border: none;
+  padding: 0.5rem;
+  border-radius: 5px;
+}
+.show-btn:hover{
+  background: transparent;
+  border: 2px solid #5d5fef;
+  color:black;
+  font-weight: bold;
 }
