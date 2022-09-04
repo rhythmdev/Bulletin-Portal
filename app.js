@@ -5,16 +5,13 @@ const loadCatagories = async () => {
   const data = await res.json();
 
   displayCatagories(data.data.news_category);
-  //console.log(data.data.news_category[0])
 };
 const displayCatagories = (categories) => {
-  // console.log(categories)
   try {
     const allCategory = document.getElementById("all-catagories");
     categories.forEach((category) => {
       const li = document.createElement("li");
-      //start loader
-      //  toggleSpinner(true)
+
       li.innerHTML = `
                 
                 <a onclick="loadCategoriesData('${
@@ -44,6 +41,9 @@ const loadCategoriesData = async (category_id) => {
 };
 
 const displayCatagoriesData = (elements) => {
+  elements.sort((a, b) => {
+    return b.total_view - a.total_view;
+  });
   //console.log(elements)
   // total news found
   try {
@@ -55,12 +55,12 @@ const displayCatagoriesData = (elements) => {
       elements.length ? elements.length : "No"
     } news found for this category.</h5>
 `;
-toggleSpinner(false)
+    toggleSpinner(false);
     totalFound.appendChild(totalDiv);
 
     const newsContainer = document.getElementById("news-container");
     newsContainer.textContent = "";
-   
+
     elements.forEach((element) => {
       const newsDiv = document.createElement("div");
       newsDiv.classList.add("col");
@@ -136,29 +136,37 @@ const loadNewsDetail = async (news_id) => {
 
 const displayNewsDetail = async (news) => {
   //  console.log(news)
-  news.forEach((bulletin) => {
-    const modalTitle = document.getElementById("phoneDetailModalLabel");
-    modalTitle.innerText = bulletin.title;
-    const newsDetails = document.getElementById("news-details");
-    newsDetails.innerHTML = `
-    <img src="${bulletin.image_url}" class="img-fluid">
-    <P class="text-break mt-3">${bulletin.details.slice(0, 180) + "....."}</P>
-    <div class="d-flex justify-content-around align-items-center text-center mt-2">
-                <div>
-                 <img src="${
-                   bulletin.author.img ? bulletin.author.img : "No data found"
-                 }" class="img-fluid rounded-circle" style="width: 35px;">
-                 <p>${
-                   bulletin.author.name ? bulletin.author.name : "No data found"
-                 }</p>
-                </div>
-                <div>
-                  <img src="/view.png" alt="image">
-                  <p>${
-                    bulletin.total_view ? bulletin.total_view : "No data found"
-                  }</p>
-                </div>
-    `;
-  });
+  try {
+    news.forEach((bulletin) => {
+      const modalTitle = document.getElementById("phoneDetailModalLabel");
+      modalTitle.innerText = bulletin.title;
+      const newsDetails = document.getElementById("news-details");
+      newsDetails.innerHTML = `
+      <img src="${bulletin.image_url}" class="img-fluid">
+      <P class="text-break mt-3">${bulletin.details.slice(0, 180) + "....."}</P>
+      <div class="d-flex justify-content-around align-items-center text-center mt-2">
+                  <div>
+                   <img src="${
+                     bulletin.author.img ? bulletin.author.img : "No data found"
+                   }" class="img-fluid rounded-circle" style="width: 35px;">
+                   <p>${
+                     bulletin.author.name
+                       ? bulletin.author.name
+                       : "No data found"
+                   }</p>
+                  </div>
+                  <div>
+                    <img src="/view.png" alt="image">
+                    <p>${
+                      bulletin.total_view
+                        ? bulletin.total_view
+                        : "No data found"
+                    }</p>
+                  </div>
+      `;
+    });
+  } catch (error) {
+    console.log(error);
+  }
 };
 loadCatagories();
