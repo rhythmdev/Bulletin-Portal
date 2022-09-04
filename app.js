@@ -55,19 +55,12 @@ const displayCatagoriesData = (elements) => {
       elements.length ? elements.length : "No"
     } news found for this category.</h5>
 `;
+toggleSpinner(false)
     totalFound.appendChild(totalDiv);
 
     const newsContainer = document.getElementById("news-container");
     newsContainer.textContent = "";
-    // display no news
-    // const noNews = document.getElementById("not-found-message");
-    // if (elements.length === 0) {
-    //   noNews.classList.remove("d-none");
-    // } else {
-    //   noNews.classList.add("d-none");
-    // }
-    // toggleSpinner(false)
-    // display all news
+   
     elements.forEach((element) => {
       const newsDiv = document.createElement("div");
       newsDiv.classList.add("col");
@@ -103,7 +96,7 @@ const displayCatagoriesData = (elements) => {
               
                 <button onclick="loadNewsDetail('${
                   element._id
-                }')" class="show-btn" data-bs-toggle="modal" data-bs-target="#newsDetailModal">Show Details</button>
+                }')" class="show-btn" data-bs-toggle="modal" data-bs-target="#phoneDetailModal">Show Details</button>
                </div>
             </div>
     
@@ -135,7 +128,7 @@ const loadNewsDetail = async (news_id) => {
     );
     const data = await res.json();
     displayNewsDetail(data.data);
-    // console.log(data.data)
+    //  console.log(data.data)
   } catch (error) {
     console.log(error);
   }
@@ -143,34 +136,29 @@ const loadNewsDetail = async (news_id) => {
 
 const displayNewsDetail = async (news) => {
   //  console.log(news)
-  const modalContainer = document.getElementById("modal-container");
   news.forEach((bulletin) => {
-    const modalDiv = document.createElement("div");
-    modalDiv.classList.add("col");
-    modalDiv.innerHTML = `
-  <div  class="modal fade" id="newsDetailModal" tabindex="-1" aria-labelledby="newsDetailModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-    
-      <div class="modal-header">
-     
-        <h5 class="modal-title" id="newsDetailModalLabel">'${bulletin.title}'</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-      <img src="${bulletin.thumbnail_url}">
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-       
-      </div>
-    </div>
-  </div>
-</div>
-
-  
-  `;
-    modalContainer.appendChild(modalDiv);
+    const modalTitle = document.getElementById("phoneDetailModalLabel");
+    modalTitle.innerText = bulletin.title;
+    const newsDetails = document.getElementById("news-details");
+    newsDetails.innerHTML = `
+    <img src="${bulletin.image_url}" class="img-fluid">
+    <P class="text-break mt-3">${bulletin.details.slice(0, 180) + "....."}</P>
+    <div class="d-flex justify-content-around align-items-center text-center mt-2">
+                <div>
+                 <img src="${
+                   bulletin.author.img ? bulletin.author.img : "No data found"
+                 }" class="img-fluid rounded-circle" style="width: 35px;">
+                 <p>${
+                   bulletin.author.name ? bulletin.author.name : "No data found"
+                 }</p>
+                </div>
+                <div>
+                  <img src="/view.png" alt="image">
+                  <p>${
+                    bulletin.total_view ? bulletin.total_view : "No data found"
+                  }</p>
+                </div>
+    `;
   });
 };
 loadCatagories();
