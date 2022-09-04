@@ -48,20 +48,21 @@ try{
   const totalDiv = document.createElement("div");
   totalDiv.innerHTML = `
 <h5>${
-    elements.length ? elements.length : "No data"
-  } items found for category '${elements.category_name}'</h5>
+    elements.length ? elements.length : "No"
+  } news found for this category.</h5>
 `;
   totalFound.appendChild(totalDiv);
 
   const newsContainer = document.getElementById("news-container");
   newsContainer.textContent = "";
   // display no news
-  const noNews = document.getElementById("not-found-message");
-  if (elements.length === 0) {
-    noNews.classList.remove("d-none");
-  } else {
-    noNews.classList.add("d-none");
-  }
+  // const noNews = document.getElementById("not-found-message");
+  // if (elements.length === 0) {
+  //   noNews.classList.remove("d-none");
+  // } else {
+  //   noNews.classList.add("d-none");
+  // }
+  // toggleSpinner(false)
   // display all news
   elements.forEach((element) => {
     const newsDiv = document.createElement("div");
@@ -96,7 +97,7 @@ try{
                   }</p>
                 </div>
               
-                <button class="show-btn">Show Details</button>
+                <button onclick="loadNewsDetail('${element._id}')" class="show-btn" data-bs-toggle="modal" data-bs-target="#newsDetailModal">Show Details</button>
                </div>
             </div>
     
@@ -112,12 +113,63 @@ catch(error){
   
 };
 const toggleSpinner = isLoading => {
-  const loaderSection  = document.getElementById('loader');
+  try{
+    const loaderSection  = document.getElementById('loader');
   if(isLoading){
     loaderSection.classList.remove('d-none')
   }
   else{
     loaderSection.classList.add('d-none')
   }
+  }
+  catch(error){
+    console.log(error)
+  }
+  
+}
+const loadNewsDetail = async(news_id) =>{
+  try{
+    const res = await fetch(` https://openapi.programming-hero.com/api/news/${news_id}`)
+    const data = await res.json();
+    displayNewsDetail(data.data)
+    // console.log(data.data)
+  }
+  catch(error){
+    console.log(error)
+  }
+  
+}
+
+const displayNewsDetail = async (news) =>{
+  //  console.log(news)
+const modalContainer = document.getElementById('modal-container');
+news.forEach((bulletin) => {
+   const modalDiv = document.createElement('div');
+  modalDiv.classList.add('col')
+  modalDiv.innerHTML = `
+  <div  class="modal fade" id="newsDetailModal" tabindex="-1" aria-labelledby="newsDetailModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+    
+      <div class="modal-header">
+     
+        <h5 class="modal-title" id="newsDetailModalLabel">'${bulletin.title}'</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+      <img src="${bulletin.thumbnail_url}">
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+       
+      </div>
+    </div>
+  </div>
+</div>
+
+  
+  `
+  modalContainer.appendChild(modalDiv)
+})
 }
 loadCatagories();
