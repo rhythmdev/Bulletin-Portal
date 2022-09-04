@@ -18,9 +18,16 @@ body {
   padding: 0.5rem;
   border-radius: 5px;
 }
-.show-btn:hover{
+.show-btn:hover {
   background: transparent;
   border: 2px solid #5d5fef;
-  color:black;
+  color: black;
   font-weight: bold;
+}
+.trend-btn {
+  background: transparent;
+  color: #5d5fef;
+  border: 1px solid #5d5fef;
+  border-radius: 5px;
+  padding: 0.5rem;
 }

@@ -16,7 +16,7 @@ const displayCatagories = (categories) => {
                 
                 <a onclick="loadCategoriesData('${
                   category.category_id
-                }'), toggleSpinner(${true})" class="nav-link text-dark" href="#">${
+                }'), toggleSpinner(${true})" class="nav-link text-dark fw-semibold" href="#">${
         category.category_name
       }</a>
                
@@ -44,7 +44,7 @@ const displayCatagoriesData = (elements) => {
   elements.sort((a, b) => {
     return b.total_view - a.total_view;
   });
-  //console.log(elements)
+  
   // total news found
   try {
     const totalFound = document.getElementById("total-category");
@@ -169,4 +169,5 @@ const displayNewsDetail = async (news) => {
     console.log(error);
   }
 };
+loadCategoriesData('08')
 loadCatagories();
